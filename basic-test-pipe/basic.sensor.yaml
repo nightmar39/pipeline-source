@@ -30,10 +30,15 @@ spec:
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1
-              kind: WorkflowTemplate
-              metadata:
-                generateName: basic-helloworld-
-              spec:
-                workflowTemplateRef:
-                  name: argo-hub.ci-simple.0.0.1
+              kind: Workflow
+              metadata: 
+                name: hello-world-test
+              spec: 
+                entrypoint: whalesay
+                templates:
+                  - name: whalesay
+                    container: 
+                      image: docker/whalesay
+                      command: [cowsay]
+                      args: ["Hello from my first pipeline"]
           parameters: []
