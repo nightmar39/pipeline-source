@@ -16,7 +16,7 @@ spec:
       repositories:
         - owner: nightmar39
           names:
-            - basic-flask-docker
+            - flask-k8s-basic
       webhook:
         port: '80'
         method: POST

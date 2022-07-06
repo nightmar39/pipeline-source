@@ -104,4 +104,4 @@ spec:
             - dest: spec.arguments.parameters.9.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: docker-registry
+                dataTemplate: docker-config
