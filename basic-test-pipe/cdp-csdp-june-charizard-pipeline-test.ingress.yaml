@@ -7,13 +7,6 @@ spec:
   rules:
     - http:
         paths:
-          - path: /webhooks/csdp-june-charizard/basic
-            backend:
-              service:
-                name: basic-eventsource-svc
-                port:
-                  number: 80
-            pathType: Prefix
           - path: /webhooks/csdp-june-charizard/flasksensor
             backend:
               service:
