@@ -72,7 +72,7 @@ spec:
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: nightmar39/csdp-flask-ci
+                dataTemplate: nightmar39/basic-flask-docker
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
