@@ -122,6 +122,7 @@ spec:
                 - name: JIRA_API_TOKEN_SECRET
                   value: 'jira-creds'
                 - name: JIRA_API_TOKEN_SECRET_KEY
-                  value: 'jira-token'
+                  value: 'jira-api'
                 - name: JIRA_EMAIL_SECRET_KEY
                   value: 'jira-email'
+            depends: report-image-info      
