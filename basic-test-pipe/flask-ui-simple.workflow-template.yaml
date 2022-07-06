@@ -100,28 +100,3 @@ spec:
                 - name: DOCKER_PASSWORD
                   value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}' 
             depends: build-docker-image
-
-          - name: image-enricher-jira-info
-                  templateRef:
-                    name: argo-hub.codefresh-csdp.1.0.0
-                    template: image-enricher-jira-info
-                  arguments:
-                    parameters:
-                    - name: CF_API_KEY
-                      value: 'codefresh-token'
-                    - name: CF_API_KEY_SECRET_KEY
-                      value: 'token'
-                    - name: IMAGE_NAME
-                      value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
-                    - name: JIRA_PROJECT_PREFIX
-                      value: 'ACT'
-                    - name: JIRA_MESSAGE
-                      value: 'working on ACT-1'
-                    - name: JIRA_HOST_URL
-                      value: 'https://rozario.atlassian.net'
-                    - name: JIRA_API_TOKEN_SECRET
-                      value: 'jira-creds'
-                    - name: JIRA_API_TOKEN_SECRET_KEY
-                      value: 'jira-token'
-                    - name: JIRA_EMAIL_SECRET_KEY
-                      value: 'jira-email'
