@@ -1,0 +1,107 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: flasksensor
+spec:
+  template:
+    serviceAccountName: argo-server
+  eventBusName: codefresh-eventbus
+  dependencies:
+    - name: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+      eventName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+      eventSourceName: flasksensor
+      filters:
+        data:
+          - path: body.X-GitHub-Event
+            value:
+              - push
+            type: string
+          - path: body.ref
+            template: '{{ (split "/" .Input)._1 }}'
+            value:
+              - heads
+            type: string
+          - path: body.ref
+            comparator: '='
+            template: '{{ trimPrefix "refs/heads/" .Input }}'
+            type: string
+            value:
+              - main
+  triggers:
+    - template:
+        name: flasktrigger
+        conditions: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: WorkflowTemplate
+              metadata:
+                generateName: flasksensor-flasktrigger-
+              spec:
+                arguments:
+                  parameters:
+                    - name: GIT_REPO_URL
+                      value: ''
+                    - name: IMAGE_NAME
+                      value: ''
+                    - name: IMAGE_TAG
+                      value: ''
+                    - name: GIT_REVISION
+                      value: ''
+                    - name: GIT_BRANCH
+                      value: ''
+                    - name: GIT_COMMIT_URL
+                      value: ''
+                    - name: GIT_COMMIT_MESSAGE
+                      value: ''
+                    - name: DOCKERFILE
+                      value: ''
+                    - name: GIT_TOKEN_SECRET
+                      value: ''
+                    - name: DOCKER_CONFIG_SECRET
+                      value: ''
+                workflowTemplateRef:
+                  name: flask-ui-simple
+          parameters:
+            - dest: spec.arguments.parameters.0.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+            - dest: spec.arguments.parameters.1.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: csdp-flask-ci
+            - dest: spec.arguments.parameters.2.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ trunc 7 .Input.body.after }}'
+            - dest: spec.arguments.parameters.3.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.after }}'
+            - dest: spec.arguments.parameters.4.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+            - dest: spec.arguments.parameters.5.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.head_commit.url }}'
+            - dest: spec.arguments.parameters.6.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.head_commit.message }}'
+            - dest: spec.arguments.parameters.7.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: dockerfile
+            - dest: spec.arguments.parameters.8.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: github-token
+            - dest: spec.arguments.parameters.9.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: docker-registry

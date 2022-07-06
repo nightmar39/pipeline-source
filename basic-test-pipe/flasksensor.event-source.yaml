@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: flasksensor
+spec:
+  eventBusName: codefresh-eventbus
+  service:
+    ports:
+      - port: 80
+  template:
+    serviceAccountName: argo-server
+  github:
+    github-c6a11ad6-6551-4a76-8890-afca6357b9e6:
+      events:
+        - push
+      repositories:
+        - owner: nightmar39
+          names:
+            - flask-k8s-basic
+      webhook:
+        port: '80'
+        method: POST
+        endpoint: >-
+          /webhooks/csdp-june-charizard/flasksensor/github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+        url: https://charizard-csdp.support.cf-cd.com
+      active: true
+      insecure: false
+      contentType: json
+      deleteHookOnFinish: true
+      apiToken:
+        name: autopilot-secret
+        key: git_token
