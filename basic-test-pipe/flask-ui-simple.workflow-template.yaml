@@ -95,4 +95,6 @@ spec:
                   value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
                 - name: DOCKER_CONFIG_SECRET
                   value: docker-config
+                - name: DOCKER_CONFIG_SECRET_KEY
+                  value: .dockerconfigjson
             depends: build-docker-image
