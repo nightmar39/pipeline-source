@@ -96,7 +96,7 @@ spec:
                 - name: GIT_COMMIT_MESSAGE
                   value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
                 - name: DOCKER_USERNAME
-                  value: '{{ inputs.parameters.REGISTRY_CRED_SECRET }}' 
+                  value: '{{ inputs.parameters.GIT_BRANCH }}' 
                 - name: DOCKER_PASSWORD
                   value: '{{ inputs.parameters.REGISTRY_CRED_SECRET }}' 
             depends: build-docker-image
