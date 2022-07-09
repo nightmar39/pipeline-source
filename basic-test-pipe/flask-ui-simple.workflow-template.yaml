@@ -125,9 +125,6 @@ spec:
                   value: 'jira-api'
                 - name: JIRA_EMAIL_SECRET_KEY
                   value: 'jira-email'
-                  value: 'jira-token'
-                - name: JIRA_EMAIL_SECRET_KEY
-                  value: 'jira-email'
             depends: report-image-info      
       
           - name: update-image-tag
