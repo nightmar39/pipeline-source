@@ -122,16 +122,14 @@ spec:
                 - name: JIRA_API_TOKEN_SECRET
                   value: 'jira-creds'
                 - name: JIRA_API_TOKEN_SECRET_KEY
-<<<<<<< HEAD
                   value: 'jira-api'
                 - name: JIRA_EMAIL_SECRET_KEY
                   value: 'jira-email'
-            depends: report-image-info      
-=======
                   value: 'jira-token'
                 - name: JIRA_EMAIL_SECRET_KEY
                   value: 'jira-email'
-
+            depends: report-image-info      
+      
           - name: update-image-tag
             templateRef:
               name: update-deploy-tag
@@ -156,4 +154,4 @@ spec:
                   value: '{{ inputs.parameters.GIT_REPO_OWNER }}'
                 - name: REPO_NAME
                   value: flask-k8s-basic
->>>>>>> ac4c45f (adding step to update CD repo)
+            depends: image-enricher-jira-info
