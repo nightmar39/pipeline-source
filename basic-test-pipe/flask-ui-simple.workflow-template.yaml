@@ -17,6 +17,16 @@ spec:
         limit: "2"  
       inputs:
         parameters:
+          - name: NEW_IMAGE
+          - name: NEW_TAG
+          - name: CD_REPO
+          - name: GIT_USER
+          - name: DEPLOYMENT_FILE
+          - name: CONTAINER_NAME
+          - name: COMMITER_EMAIL
+          - name: BRANCH
+          - name: REPO_OWNER
+          - name: REPO_NAME
           - name: GIT_REPO_URL
           - name: IMAGE_NAME
           - name: IMAGE_TAG
