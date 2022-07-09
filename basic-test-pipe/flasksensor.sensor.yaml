@@ -42,6 +42,28 @@ spec:
               spec:
                 arguments:
                   parameters:
+                    - name: NEW_IMAGE
+                      value: ''
+                    - name: NEW_TAG
+                      value: ''
+                    - name: CD_REPO
+                      value: ''
+                    - name: GIT_USER
+                      value: ''
+                    - name: DEPLOYMENT_FILE
+                      value: ''
+                    - name: CONTAINER_NAME
+                      value: ''
+                    - name: COMMITER_EMAIL
+                      value: ''
+                    - name: BRANCH
+                      value: ''
+                    - name: REPO_OWNER
+                      value: ''
+                    - name: REPO_NAME
+                      value: ''
+                    - name: REGISTRY_CREDS_SECRET
+                      value: ''
                     - name: GIT_REPO_URL
                       value: ''
                     - name: IMAGE_NAME
@@ -68,40 +90,84 @@ spec:
             - dest: spec.arguments.parameters.0.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+                dataTemplate: basic-flask-docker
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: nightmar39/basic-flask-docker
+                dataTemplate: '{{ trunc 7 .Input.body.after }}'
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ trunc 7 .Input.body.after }}'
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
             - dest: spec.arguments.parameters.3.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.after }}'
+                dataTemplate: '{{ .Input.body.repository.owner.login }}'
             - dest: spec.arguments.parameters.4.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+                dataTemplate: deployment.yml
             - dest: spec.arguments.parameters.5.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.head_commit.url }}'
+                dataTemplate: flask-server-simple
             - dest: spec.arguments.parameters.6.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.head_commit.message }}'
+                dataTemplate: anthonyzilla94@gmail.com
             - dest: spec.arguments.parameters.7.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: dockerfile
+                dataTemplate: csdp
             - dest: spec.arguments.parameters.8.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: github-token
+                dataTemplate: '{{ .Input.body.repository.owner.login }}'
             - dest: spec.arguments.parameters.9.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.repository.name }}'
+            - dest: spec.arguments.parameters.10.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: git-token
+            - dest: spec.arguments.parameters.11.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+            - dest: spec.arguments.parameters.12.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: nightmar39/basic-flask-docker
+            - dest: spec.arguments.parameters.13.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ trunc 7 .Input.body.after }}'
+            - dest: spec.arguments.parameters.14.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.after }}'
+            - dest: spec.arguments.parameters.15.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+            - dest: spec.arguments.parameters.16.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.head_commit.url }}'
+            - dest: spec.arguments.parameters.17.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: '{{ .Input.body.head_commit.message }}'
+            - dest: spec.arguments.parameters.18.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: dockerfile
+            - dest: spec.arguments.parameters.19.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: github-token
+            - dest: spec.arguments.parameters.20.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
                 dataTemplate: docker-config
