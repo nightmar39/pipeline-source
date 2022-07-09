@@ -43,49 +43,51 @@ spec:
                 arguments:
                   parameters:
                     - name: CONTEXT
-                      value: ''
+                      value: ./
                     - name: NEW_IMAGE
-                      value: ''
+                      value: basic-flask-docker
                     - name: NEW_TAG
-                      value: ''
+                      value: latest
                     - name: CD_REPO
-                      value: ''
+                      value: >-
+                        https://github.com/nightmar39/flask-k8s-basic.githttps://github.com/nightmar39/flask-k8s-basic.gitflask-k8s-basic.git
                     - name: GIT_USER
-                      value: ''
+                      value: nightmar39
                     - name: DEPLOYMENT_FILE
-                      value: ''
+                      value: deployment.yml
                     - name: CONTAINER_NAME
-                      value: ''
+                      value: flask-server-simiple
                     - name: COMMITER_EMAIL
-                      value: ''
+                      value: anthonyzilla94@gmail.com
                     - name: BRANCH
-                      value: ''
+                      value: csdp
                     - name: REPO_OWNER
-                      value: ''
+                      value: nightmar39
                     - name: REPO_NAME
-                      value: ''
+                      value: flask-k8s-basic
                     - name: REGISTRY_CREDS_SECRET
-                      value: ''
+                      value: docker-config
                     - name: GIT_REPO_URL
-                      value: ''
+                      value: https://github.com/nightmar39/basic-flask-docker.git
                     - name: IMAGE_NAME
-                      value: ''
+                      value: basic-flask-docker
                     - name: IMAGE_TAG
-                      value: ''
+                      value: latest
                     - name: GIT_REVISION
-                      value: ''
+                      value: 0481e703825aef310997997b8447003ca5eb7355
                     - name: GIT_BRANCH
-                      value: ''
+                      value: main
                     - name: GIT_COMMIT_URL
-                      value: ''
+                      value: >-
+                        https://github.com/nightmar39/basic-flask-docker/commit/0481e703825aef310997997b8447003ca5eb7355
                     - name: GIT_COMMIT_MESSAGE
-                      value: ''
+                      value: asdf
                     - name: DOCKERFILE
-                      value: ''
+                      value: dockerfile
                     - name: GIT_TOKEN_SECRET
-                      value: ''
+                      value: github-token
                     - name: DOCKER_CONFIG_SECRET
-                      value: ''
+                      value: docker-config
                 workflowTemplateRef:
                   name: flask-ui-simple
           parameters:
