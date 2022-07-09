@@ -18,7 +18,9 @@ spec:
       inputs:
         parameters:
           - name: GIT_REPO_URL
+            default: https://github.com/nightmar39/basic-flask-docker.git
           - name: GIT_REPO_OWNER
+            default: nightmar39
           - name: IMAGE_NAME
           - name: IMAGE_TAG
             default: latest
