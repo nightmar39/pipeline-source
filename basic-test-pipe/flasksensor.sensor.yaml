@@ -43,23 +43,24 @@ spec:
                 arguments:
                   parameters:
                     - name: CONTEXT
-                      value: ''
+                      value: ./
                     - name: REGISTRY_CREDS_SECRET
-                      value: ''
+                      value: docker-config
                     - name: GIT_REVISION
-                      value: ''
+                      value: 0481e703825aef310997997b8447003ca5eb7355
                     - name: GIT_BRANCH
-                      value: ''
+                      value: main
                     - name: GIT_COMMIT_URL
-                      value: ''
+                      value: >-
+                        https://github.com/nightmar39/basic-flask-docker/commit/0481e703825aef310997997b8447003ca5eb7355
                     - name: GIT_COMMIT_MESSAGE
-                      value: ''
+                      value: asdf
                     - name: DOCKERFILE
-                      value: ''
+                      value: dockerfile
                     - name: GIT_TOKEN_SECRET
-                      value: ''
+                      value: github-token
                     - name: DOCKER_CONFIG_SECRET
-                      value: ''
+                      value: docker-config
                 workflowTemplateRef:
                   name: flask-ui-simple
           parameters:
