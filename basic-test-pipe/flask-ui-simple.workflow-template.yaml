@@ -25,6 +25,8 @@ spec:
             default: ''
           - name: GIT_COMMIT_MESSAGE
             default: ''
+          - name: GIT_REPO_URL
+            default: ''
           - name: DOCKERFILE
             default: Dockerfile
 
