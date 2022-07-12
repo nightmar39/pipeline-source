@@ -49,6 +49,16 @@ spec:
             templateRef:
               name: argo-hub.kaniko.0.0.1
               template: build
+            inputs:
+             artifacts:
+             - name: repo
+               path: /tmp/repo
+               git:
+                  repo: '{{ inputs.parameters.REPO }}'
+                  revision: '{{ inputs.parameters.REVISION }}'
+                  usernameSecret:
+                   name: '{{ inputs.parameters.GIT_TOKEN_SECRET }}'
+                   key: token
             arguments:
               parameters:
                 - name: REPO
