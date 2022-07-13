@@ -29,7 +29,9 @@ spec:
             default: ''
           - name: DOCKERFILE
             default: Dockerfile
-
+          - name: IMAGE_NAME
+            default: basic-flask-docker
+          - name: IMAGE_TAG
           - name: GIT_TOKEN_SECRET
             default: github-token # the name of the git secret token you applied to your cluster
           - name: CONTEXT
