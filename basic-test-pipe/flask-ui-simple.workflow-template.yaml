@@ -158,5 +158,7 @@ spec:
                   value: '{{ inputs.parameters.GIT_REPO_OWNER }}'
                 - name: REPO_NAME
                   value: flask-k8s-basic
+                - name: CD_REPO
+                  value: https://github.com/nightmar39/flask-k8s-basic.git
             depends: image-enricher-jira-info
               
