@@ -42,6 +42,10 @@ spec:
               spec:
                 arguments:
                   parameters:
+                    - name: IMAGE_NAME
+                      value: ''
+                    - name: IMAGE_TAG
+                      value: ''
                     - name: GIT_REPO_URL
                       value: ''
                     - name: CONTEXT
@@ -69,40 +73,48 @@ spec:
             - dest: spec.arguments.parameters.0.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+                dataTemplate: '{{ trunc 7 .Input.body.after }}'
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: ./
+                dataTemplate: '{{ .Input.body.repository.name }}'
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: git-token
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
             - dest: spec.arguments.parameters.3.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.after }}'
+                dataTemplate: ./
             - dest: spec.arguments.parameters.4.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+                dataTemplate: git-token
             - dest: spec.arguments.parameters.5.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.head_commit.url }}'
+                dataTemplate: '{{ .Input.body.after }}'
             - dest: spec.arguments.parameters.6.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: '{{ .Input.body.head_commit.message }}'
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
             - dest: spec.arguments.parameters.7.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: dockerfile
+                dataTemplate: '{{ .Input.body.head_commit.url }}'
             - dest: spec.arguments.parameters.8.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
-                dataTemplate: github-token
+                dataTemplate: '{{ .Input.body.head_commit.message }}'
             - dest: spec.arguments.parameters.9.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: dockerfile
+            - dest: spec.arguments.parameters.10.value
+              src:
+                dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+                dataTemplate: github-token
+            - dest: spec.arguments.parameters.11.value
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
                 dataTemplate: docker-config
