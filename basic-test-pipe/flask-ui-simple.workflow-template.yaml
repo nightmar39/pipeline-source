@@ -27,6 +27,8 @@ spec:
             default: ''
           - name: GIT_REPO_URL
             default: ''
+          - name: GIT_REPO_OWNER
+            default: nightmar39
           - name: DOCKERFILE
             default: Dockerfile
           - name: IMAGE_NAME
