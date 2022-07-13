@@ -96,10 +96,18 @@ spec:
                   value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
                 - name: GIT_COMMIT_MESSAGE
                   value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
-                - name: DOCKER_USERNAME
-                  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}' 
-                - name: DOCKER_PASSWORD
-                  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}' 
+                - name: DOCKER_CONFIG_SECRET
+                  value: docker-config
+                - name: DOCKER_CONFIG_SECRET_KEY
+                  value: .dockerconfigjson
+                #- name: DOCKER_USERNAME
+                #  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}' 
+                #- name: DOCKERHUB_USERNAME_SECRET_KEY
+                #  value: username
+                #- name: DOCKERHUB_PASSWORD_SECRET_KEY
+                #  value: password
+                #- name: DOCKER_PASSWORD
+                #  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}' 
             depends: build-docker-image
           - name: image-enricher-jira-info
             templateRef:
