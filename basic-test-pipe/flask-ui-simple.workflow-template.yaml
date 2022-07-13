@@ -137,7 +137,7 @@ spec:
           - name: update-image-tag
             templateRef:
               name: update-deploy-tag
-              template: update-deploy-tag   
+              template: update-tag   
             arguments: 
               parameters: 
                 - name: NEW_IMAGE
