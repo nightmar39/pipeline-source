@@ -74,7 +74,7 @@ spec:
               src:
                 dependencyName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
                 dataTemplate: >-
-                  {{ .Input.body.repository.owner.login }}/ {{
+                  {{ .Input.body.repository.owner.login }}/{{
                   .Input.body.repository.name }}
             - dest: spec.arguments.parameters.1.value
               src:
