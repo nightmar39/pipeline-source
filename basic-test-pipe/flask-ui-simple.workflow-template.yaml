@@ -141,7 +141,7 @@ spec:
             arguments: 
               parameters: 
                 - name: NEW_IMAGE
-                  value: docker.io/nightmar39/"{{inputs.parameters.IMAGE_NAME}}" 
+                  value: 'docker.io/nightmar39/{{inputs.parameters.IMAGE_NAME}}' 
                 - name: NEW_TAG
                   value: '{{ inputs.parameters.IMAGE_TAG }}'
                 - name: GIT_USER
