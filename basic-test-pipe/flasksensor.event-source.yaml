@@ -10,6 +10,26 @@ spec:
   template:
     serviceAccountName: argo-server
   github:
+    github-22c9f4ed-f679-4813-ace6-66c32a51aacd:
+      events:
+        - pull_request
+      repositories:
+        - owner: nightmar39
+          names:
+            - basic-flask-docker
+      webhook:
+        port: '80'
+        method: POST
+        endpoint: >-
+          /webhooks/csdp-june-charizard/flasksensor/github-22c9f4ed-f679-4813-ace6-66c32a51aacd
+        url: https://charizard-csdp.support.cf-cd.com
+      active: true
+      insecure: false
+      contentType: json
+      deleteHookOnFinish: true
+      apiToken:
+        name: autopilot-secret
+        key: git_token
     github-c6a11ad6-6551-4a76-8890-afca6357b9e6:
       events:
         - push

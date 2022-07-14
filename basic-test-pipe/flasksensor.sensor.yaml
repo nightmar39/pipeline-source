@@ -7,6 +7,25 @@ spec:
     serviceAccountName: argo-server
   eventBusName: codefresh-eventbus
   dependencies:
+    - name: github-22c9f4ed-f679-4813-ace6-66c32a51aacd
+      eventName: github-22c9f4ed-f679-4813-ace6-66c32a51aacd
+      eventSourceName: flasksensor
+      filters:
+        data:
+          - path: body.X-GitHub-Event
+            value:
+              - pull_request
+            type: string
+          - path: body.action
+            value:
+              - opened
+            type: string
+          - path: body.pull_request.base.ref
+            comparator: '='
+            template: '{{ .Input }}'
+            type: string
+            value:
+              - main
     - name: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
       eventName: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
       eventSourceName: flasksensor
@@ -30,7 +49,9 @@ spec:
   triggers:
     - template:
         name: flasktrigger
-        conditions: github-c6a11ad6-6551-4a76-8890-afca6357b9e6
+        conditions: >-
+          github-22c9f4ed-f679-4813-ace6-66c32a51aacd ||
+          github-c6a11ad6-6551-4a76-8890-afca6357b9e6
         argoWorkflow:
           operation: submit
           source:
