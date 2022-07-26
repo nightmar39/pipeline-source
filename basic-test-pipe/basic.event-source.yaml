@@ -16,7 +16,7 @@ spec:
       repositories:
         - owner: nightmar39
           names:
-            - source-test
+            - repo-test
       webhook:
         port: '80'
         method: POST

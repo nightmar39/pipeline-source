@@ -1,0 +1,166 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: flask-ui-simple
+spec:
+  volumes:
+    - name: docker-config
+      secret:
+        items:
+          - key: .dockerconfigjson
+            path: config.json
+        secretName: '{{ inputs.parameters.DOCKER_CONFIG_SECRET }}'
+  entrypoint: ci-tasks
+  templates:
+    - name: ci-tasks
+      retryStrategy:
+        limit: "2"  
+      inputs:
+        parameters:
+          - name: GIT_REVISION
+            default: main         # use default value if this parameter is not provided
+          - name: GIT_BRANCH
+            default: main
+          - name: GIT_COMMIT_URL
+            default: ''
+          - name: GIT_COMMIT_MESSAGE
+            default: ''
+          - name: GIT_REPO_URL
+            default: ''
+          - name: GIT_REPO_OWNER
+            default: nightmar39
+          - name: DOCKERFILE
+            default: Dockerfile
+          - name: IMAGE_NAME
+            default: basic-flask-docker
+          - name: IMAGE_TAG
+          - name: GIT_TOKEN_SECRET
+            default: github-token # the name of the git secret token you applied to your cluster
+          - name: CONTEXT
+            default: .
+
+          - name: REGISTRY_CREDS_SECRET
+            default: registry-creds  # the name of the registry-creds secret you created
+          # Create a docker-registry secret with your docker credentials and apply it to your cluster under the runtime namespace
+          # https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_create_secret_docker-registry/
+          - name: DOCKER_CONFIG_SECRET
+            default: docker-config  # the name of the registry-creds secret you created
+            
+      dag:
+        tasks:
+          # https://codefresh.io/argohub/workflow-template/kaniko
+          - name: build-docker-image
+            templateRef:
+              name: argo-hub.kaniko.0.0.1
+              template: build
+            inputs:
+             artifacts:
+             - name: repo
+               path: /tmp/repo
+               git:
+                  repo: '{{ inputs.parameters.REPO }}'
+                  revision: '{{ inputs.parameters.REVISION }}'
+                  usernameSecret:
+                   name: '{{ inputs.parameters.GIT_TOKEN_SECRET }}'
+                   key: token
+            arguments:
+              parameters:
+                - name: REPO
+                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                - name: REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: IMAGE_NAME
+                  value: '{{ inputs.parameters.IMAGE_NAME }}'
+                - name: GIT_TOKEN_SECRET
+                  value: '{{ inputs.parameters.GIT_TOKEN_SECRET }}'
+                - name: DOCKERFILE
+                  value: '{{ inputs.parameters.DOCKERFILE }}'
+                - name: CONTEXT
+                  value: '{{ inputs.parameters.CONTEXT }}'
+                - name: TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+
+          - name: report-image-info
+            templateRef:
+              name: argo-hub.codefresh-csdp.0.0.6
+              template: report-image-info
+            arguments:
+              parameters:
+                - name: IMAGE
+                  value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
+                - name: CF_API_KEY
+                  value: codefresh-token # this secret is created as part of the runtime installation
+                - name: GIT_REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: GIT_BRANCH
+                  value: '{{ inputs.parameters.GIT_BRANCH }}'
+                - name: GIT_COMMIT_URL
+                  value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
+                - name: GIT_COMMIT_MESSAGE
+                  value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
+                - name: DOCKER_CONFIG_SECRET
+                  value: docker-config
+                - name: DOCKER_CONFIG_SECRET_KEY
+                  value: .dockerconfigjson
+                - name: DOCKER_USERNAME
+                  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}' 
+                - name: DOCKERHUB_USERNAME_SECRET_KEY
+                  value: username
+                - name: DOCKERHUB_PASSWORD_SECRET_KEY
+                  value: password
+                - name: DOCKER_PASSWORD
+                  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}' 
+            depends: build-docker-image
+          - name: image-enricher-jira-info
+            templateRef:
+              name: argo-hub.codefresh-csdp.1.0.0
+              template: image-enricher-jira-info
+            arguments:
+              parameters:
+                - name: CF_API_KEY
+                  value: 'codefresh-token'
+                - name: CF_API_KEY_SECRET_KEY
+                  value: 'token'
+                - name: IMAGE_NAME
+                  value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
+                - name: JIRA_PROJECT_PREFIX
+                  value: 'ACT'
+                - name: JIRA_MESSAGE
+                  value: 'working on ACT-1'
+                - name: JIRA_HOST_URL
+                  value: 'https://rozario.atlassian.net'
+                - name: JIRA_API_TOKEN_SECRET
+                  value: 'jira-creds'
+                - name: JIRA_API_TOKEN_SECRET_KEY
+                  value: 'jira-api'
+                - name: JIRA_EMAIL_SECRET_KEY
+                  value: 'jira-email'
+            depends: report-image-info
+          - name: update-image-tag
+            templateRef:
+              name: update-deploy-tag
+              template: update-tag   
+            arguments: 
+              parameters: 
+                - name: NEW_IMAGE
+                  value: 'docker.io/nightmar39/{{inputs.parameters.IMAGE_NAME}}' 
+                - name: NEW_TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                - name: GIT_USER
+                  value: '{{ inputs.parameters.GIT_REPO_OWNER }}'
+                - name: DEPLOYMENT_FILE
+                  value: deployment.yml
+                - name: CONTAINER_NAME
+                  value: flask-server-simple
+                - name: COMMITER_EMAIL
+                  value: anthonyzilla94@gmail.com
+                - name: BRANCH
+                  value: csdp 
+                - name: REPO_OWNER
+                  value: '{{ inputs.parameters.GIT_REPO_OWNER }}'
+                - name: REPO_NAME
+                  value: flask-k8s-basic
+                - name: CD_REPO
+                  value: https://github.com/nightmar39/flask-k8s-basic.git
+            depends: image-enricher-jira-info
+              
